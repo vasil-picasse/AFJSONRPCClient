@@ -21,14 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFHTTPRequestOperationManager.h"
+#import <AFNetworking/AFHTTPSessionManager.h>
 
 /**
  AFJSONRPCClient objects communicate with web services using the JSON-RPC 2.0 protocol.
  
  @see http://www.jsonrpc.org/specification
  */
-@interface AFJSONRPCClient : AFHTTPRequestOperationManager
+@interface AFJSONRPCClient : AFHTTPSessionManager
 
 /**
  The endpoint URL for the webservice.
@@ -67,43 +67,43 @@
                                  requestId:(id)requestId;
 
 /**
- Creates a request with the specified method, and enqueues a request operation for it.
+ Creates a request with the specified method, and enqueues a request task for it.
  
  @param method The HTTP method. Must not be `nil`.
- @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the request operation, and the response object created by the client response serializer.
- @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a two arguments: the request operation and the error describing the network or parsing error that occurred.
+ @param success A block object to be executed when the request task finishes successfully. This block has no return value and takes two arguments: the request task, and the response object created by the client response serializer.
+ @param failure A block object to be executed when the request task finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a two arguments: the request task and the error describing the network or parsing error that occurred.
  */
 - (void)invokeMethod:(NSString *)method
-             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+             success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+             failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure;
 
 /**
- Creates a request with the specified method and parameters, and enqueues a request operation for it.
+ Creates a request with the specified method and parameters, and enqueues a request task for it.
 
  @param method The HTTP method. Must not be `nil`.
  @param parameters The parameters to encode into the request. Must be either an `NSDictionary` or `NSArray`.
- @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the request operation, and the response object created by the client response serializer.
- @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a two arguments: the request operation and the error describing the network or parsing error that occurred.
+ @param success A block object to be executed when the request task finishes successfully. This block has no return value and takes two arguments: the request task, and the response object created by the client response serializer.
+ @param failure A block object to be executed when the request task finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a two arguments: the request task and the error describing the network or parsing error that occurred.
  */
 - (void)invokeMethod:(NSString *)method
       withParameters:(id)parameters
-             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+             success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+             failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure;
 
 /**
- Creates a request with the specified method and parameters, and enqueues a request operation for it.
+ Creates a request with the specified method and parameters, and enqueues a request task for it.
 
  @param method The HTTP method. Must not be `nil`.
  @param parameters The parameters to encode into the request. Must be either an `NSDictionary` or `NSArray`.
  @param requestId The ID of the request.
- @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the request operation, and the response object created by the client response serializer.
- @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a two arguments: the request operation and the error describing the network or parsing error that occurred.
+ @param success A block object to be executed when the request task finishes successfully. This block has no return value and takes two arguments: the request task, and the response object created by the client response serializer.
+ @param failure A block object to be executed when the request task finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a two arguments: the request task and the error describing the network or parsing error that occurred.
  */
 - (void)invokeMethod:(NSString *)method
       withParameters:(id)parameters
            requestId:(id)requestId
-             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+             success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+             failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure;
 
 ///----------------------
 /// @name Method Proxying
