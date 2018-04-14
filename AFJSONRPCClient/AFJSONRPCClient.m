@@ -52,15 +52,16 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
 
 @interface AFJSONRPCClient ()
 @property (readwrite, nonatomic, strong) NSURL *endpointURL;
+@property (readwrite, nonatomic, strong) NSDictionaty *authentication;
 @end
 
 @implementation AFJSONRPCClient
 
-+ (instancetype)clientWithEndpointURL:(NSURL *)URL {
-    return [[self alloc] initWithEndpointURL:URL];
++ (instancetype)clientWithEndpointURL:(NSURL *)URL andAuthentication:(NSDictionary *)authentication {
+    return [[self alloc] initWithEndpointURL:URL andAuthentication:authentication];
 }
 
-- (id)initWithEndpointURL:(NSURL *)URL {
+- (id)initWithEndpointURL:(NSURL *)URL andAuthentication:(NSDictionary *)authentication {
     NSParameterAssert(URL);
 
     self = [super initWithBaseURL:URL];
@@ -74,6 +75,7 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
     self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"application/json-rpc", @"application/jsonrequest", nil];
 
     self.endpointURL = URL;
+    self.authentication = authentication;
 
     return self;
 }
@@ -90,7 +92,7 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
              success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
              failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
-    [self invokeMethod:method withParameters:parameters requestId:@(1) success:success failure:failure];
+    [self invokeMethod:method withParameters:parameters requestId:nil success:success failure:failure];
 }
 
 - (void)invokeMethod:(NSString *)method
@@ -117,6 +119,13 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
      */
     if (!requestId) {
         payload[@"id"] = [requestId description];
+    }
+
+    /**
+     * Inject authentication section if present (custom extension of jsonrpc 2.0
+     */
+    if (!self.authentication) {
+        payload[@"authentication"] = self.authentication;
     }
 
     [self POST:@"" parameters:payload success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
