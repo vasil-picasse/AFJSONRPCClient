@@ -128,8 +128,6 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
         payload[@"authentication"] = self.authentication;
     }
 
-    NSLog(@"Parameters JSONRPC: %@", [payload description]);
-
     NSString *url = [self.endpointURL absoluteString];
     [self POST:url parameters:payload success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         NSInteger code = 0;
