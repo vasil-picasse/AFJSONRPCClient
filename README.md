@@ -1,5 +1,9 @@
 # AFJSONRPCClient
 
+> I need this to work with afnetworking 3.x
+
+---
+
 **A [JSON-RPC](http://json-rpc.org/) Client built on [AFNetworking](https://github.com/AFNetworking/AFNetworking)**
 
 > [JSON-RPC](http://json-rpc.org/) is a [remote procedure call](http://en.wikipedia.org/wiki/Remote_procedure_call) protocol encoded in [JSON](http://en.wikipedia.org/wiki/JSON). It is a simple protocol (and very similar to [XML-RPC](http://en.wikipedia.org/wiki/XML-RPC)), defining only a handful of data types and commands. JSON-RPC allows for notifications (info sent to the server that does not require a response) and for multiple calls to be sent to the server which may be answered out of order.
