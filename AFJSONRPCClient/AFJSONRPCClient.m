@@ -52,7 +52,7 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
 
 @interface AFJSONRPCClient ()
 @property (readwrite, nonatomic, strong) NSURL *endpointURL;
-@property (readwrite, nonatomic, strong) NSDictionaty *authentication;
+@property (readwrite, nonatomic, strong) NSDictionary *authentication;
 @end
 
 @implementation AFJSONRPCClient
@@ -64,7 +64,7 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
 - (id)initWithEndpointURL:(NSURL *)URL andAuthentication:(NSDictionary *)authentication {
     NSParameterAssert(URL);
 
-    self = [super initWithBaseURL:URL];
+    self = [super init];
     if (!self) {
         return nil;
     }
@@ -117,18 +117,21 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
     /**
      * Allow `id` field to be ommited for `notification` requests (JSON-RPC specifies so)
      */
-    if (!requestId) {
+    if (requestId != nil) {
         payload[@"id"] = [requestId description];
     }
 
     /**
      * Inject authentication section if present (custom extension of jsonrpc 2.0
      */
-    if (!self.authentication) {
+    if (self.authentication != nil) {
         payload[@"authentication"] = self.authentication;
     }
 
-    [self POST:@"" parameters:payload success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+    NSLog(@"Parameters JSONRPC: %@", [payload description]);
+
+    NSString *url = [self.endpointURL absoluteString];
+    [self POST:url parameters:payload success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         NSInteger code = 0;
         NSString *message = nil;
         id data = nil;

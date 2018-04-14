@@ -39,7 +39,7 @@
  Creates and initializes a JSON-RPC client with the specified endpoint.
  
  @param URL The endpoint URL.
- @param NSDictionary The authentication parameters.
+ @param authentication The authentication parameters.
 
  @return An initialized JSON-RPC client.
  */
@@ -49,24 +49,11 @@
  Initializes a JSON-RPC client with the specified endpoint.
  
  @param URL The endpoint URL.
- @param NSDictionary The authentication parameters.
+ @param authentication The authentication parameters.
  
  @return An initialized JSON-RPC client.
  */
 - (id)initWithEndpointURL:(NSURL *)URL andAauthentication:(NSDictionary *)authentication;
-
-/**
- Creates a request with the specified HTTP method, parameters, and request ID.
- 
- @param method The HTTP method. Must not be `nil`.
- @param parameters The parameters to encode into the request. Must be either an `NSDictionary` or `NSArray`.
- @param requestId The ID of the request.
- 
- @return A JSON-RPC-encoded request.
- */
-- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
-                                parameters:(id)parameters
-                                 requestId:(id)requestId;
 
 /**
  Creates a request with the specified method, and enqueues a request task for it.
