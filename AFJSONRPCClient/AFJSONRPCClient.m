@@ -126,7 +126,13 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
     payload[@"jsonrpc"] = @"2.0";
     payload[@"method"] = method;
     payload[@"params"] = parameters;
-    payload[@"id"] = [requestId description];
+
+    /**
+     * Allow `id` field to be ommited for `notification` requests (JSON-RPC specifies so)
+     */
+    if (requestId != [NSNull null]) {
+        payload[@"id"] = [requestId description];
+    }
 
     return [self.requestSerializer requestWithMethod:@"POST" URLString:[self.endpointURL absoluteString] parameters:payload error:nil];
 }
